@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/authenticate/widgets/form_background.dart';
-import 'package:flutter_training/authenticate/widgets/login_form.dart';
 import 'package:flutter_training/routes/app_routes.dart';
 import '../../ui_spacing.dart';
+import '../ViewModel/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);

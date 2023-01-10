@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/authenticate/widgets/signup_form.dart';
+import 'package:flutter_training/authenticate/ViewModel/signup_form.dart';
 import '../widgets/form_background.dart';
 import '../../ui_spacing.dart';
 
