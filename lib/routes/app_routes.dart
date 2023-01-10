@@ -1,7 +1,8 @@
 class RouteName{
-  //login screen - first screen
+  //authenticate
   static const login='login';
-
-  //sign up
   static const signup='signup';
+
+  //home screen when logged in
+  static const home='home';
 }
