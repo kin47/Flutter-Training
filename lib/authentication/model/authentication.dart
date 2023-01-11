@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_training/core/model/user.dart';
 
-class Authenticate extends ChangeNotifier {
+class Authentication extends ChangeNotifier {
   OurUser _user=OurUser();
   String? _error;
 

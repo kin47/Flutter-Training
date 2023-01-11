@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/authenticate/model/authenticate.dart';
-import 'package:flutter_training/authenticate/views/login_screen.dart';
+import 'package:flutter_training/authentication/model/authentication.dart';
+import 'package:flutter_training/authentication/views/login_screen.dart';
 import 'package:flutter_training/home/views/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +17,7 @@ class _RootScreenState extends State<RootScreen> {
   void didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    Authenticate auth=Provider.of<Authenticate>(context, listen: false);
+    Authentication auth=Provider.of<Authentication>(context, listen: false);
     if(await auth.onStartUp()) {
       setState(() {
         loggedIn=true;

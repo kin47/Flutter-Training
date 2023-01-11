@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/authenticate/model/authenticate.dart';
-import 'package:flutter_training/authenticate/widgets/input_decoration.dart';
+import 'package:flutter_training/authentication/model/authentication.dart';
+import 'package:flutter_training/authentication/widgets/input_decoration.dart';
+import 'package:flutter_training/ui_spacing.dart';
 import 'package:provider/provider.dart';
-import '../../ui_spacing.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class _SignUpFormState extends State<SignUpForm> {
   void _showErrorDialog(String message) {
     var snackbar = SnackBar(
       content: Text(message),
-      margin: const EdgeInsets.only(left: 24, right: 24),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       behavior: SnackBarBehavior.floating,
       shape: const StadiumBorder(),
       duration: const Duration(seconds: 3),
@@ -48,7 +48,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Future<void> _signupUser(
       String email, String password) async {
-    Authenticate auth = Provider.of<Authenticate>(context, listen: false);
+    Authentication auth = Provider.of<Authentication>(context, listen: false);
     try {
       if (await auth.signUp(email, password)) {
         _showSuccessDialog();
@@ -94,7 +94,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Padding NameInput() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         controller: _nameController,
         decoration: inputDecoration("Name", const Icon(Icons.person)),
@@ -105,7 +105,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Padding SignUpEmailInput() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         controller: _emailController,
         keyboardType: TextInputType.emailAddress,
@@ -117,7 +117,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Padding SignUpPasswordInput() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         controller: _passwordController,
         decoration: passwordInputDecoration("Password"),
@@ -129,7 +129,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Padding ConfirmPasswordInput() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         controller: _confirmPasswordController,
         decoration: passwordInputDecoration("Confirm Password"),

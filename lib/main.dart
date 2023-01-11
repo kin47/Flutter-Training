@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_training/authenticate/model/authenticate.dart';
+import 'package:flutter_training/authentication/model/authentication.dart';
 import 'package:flutter_training/routes/app_pages.dart';
 import 'package:flutter_training/routes/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ListenableProvider<Authenticate>(create: (_) => Authenticate()),
+        ListenableProvider<Authentication>(create: (_) => Authentication()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

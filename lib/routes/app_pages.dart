@@ -1,9 +1,9 @@
+import 'package:flutter_training/authentication/views/login_screen.dart';
+import 'package:flutter_training/authentication/views/signup_screen.dart';
 import 'package:flutter_training/home/views/home_screen.dart';
 import 'package:flutter_training/core/root/root.dart';
 import 'package:flutter_training/routes/app_routes.dart';
 import 'package:flutter_training/settings/views/setting_screen.dart';
-import '../authenticate/views/login_screen.dart';
-import '../authenticate/views/signup_screen.dart';
 
 class AppPages {
   static final routes={

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/authenticate/model/authenticate.dart';
-import 'package:flutter_training/authenticate/widgets/input_decoration.dart';
+import 'package:flutter_training/authentication/model/authentication.dart';
+import 'package:flutter_training/authentication/widgets/input_decoration.dart';
 import 'package:flutter_training/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 import '../../ui_spacing.dart';
@@ -33,7 +33,7 @@ class _LoginFormState extends State<LoginForm> {
     setState(() {
       isLoading=true;
     });
-    Authenticate auth = Provider.of<Authenticate>(context, listen: false);
+    Authentication auth = Provider.of<Authentication>(context, listen: false);
     try {
       if (await auth.logIn(email, password)) {
         Navigator.of(context).pushReplacementNamed(RouteName.home);
@@ -51,30 +51,32 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SH30,
-        LoginEmailInput(),
-        SH10,
-        LoginPasswordInput(),
-        SH20,
-        isLoading
-            ? const CircularProgressIndicator()
-            : ElevatedButton(
-                onPressed: () {
-                  _loginUser(_emailController.text, _passwordController.text);
-                },
-                child: const Text("Log In"),
-              )
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SH30,
+          LoginEmailInput(),
+          SH10,
+          LoginPasswordInput(),
+          SH20,
+          isLoading
+              ? const CircularProgressIndicator()
+              : ElevatedButton(
+                  onPressed: () {
+                    _loginUser(_emailController.text, _passwordController.text);
+                  },
+                  child: const Text("Log In"),
+                ),
+        ],
+      ),
     );
   }
 
   Padding LoginEmailInput() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         controller: _emailController,
         decoration: inputDecoration("Email", const Icon(Icons.mail)),
@@ -85,7 +87,7 @@ class _LoginFormState extends State<LoginForm> {
 
   Padding LoginPasswordInput() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         controller: _passwordController,
         obscureText: obscureTxt,
