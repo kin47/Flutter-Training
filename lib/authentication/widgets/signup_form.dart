@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/authentication/model/authentication.dart';
+import 'package:flutter_training/authentication/ViewModel/authentication.dart';
 import 'package:flutter_training/authentication/widgets/input_decoration.dart';
 import 'package:flutter_training/ui_spacing.dart';
 import 'package:provider/provider.dart';
@@ -15,8 +15,10 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   bool obscureTxt = true;
+  bool isLoading = false;
 
   void _showErrorDialog(String message) {
     var snackbar = SnackBar(
@@ -46,20 +48,24 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  Future<void> _signupUser(
-      String email, String password) async {
+  Future<void> _signupUser(String email, String password, String name) async {
+    setState(() {
+      isLoading = true;
+    });
     Authentication auth = Provider.of<Authentication>(context, listen: false);
     try {
-      if (await auth.signUp(email, password)) {
+      if (await auth.signUp(email, password, name)) {
         _showSuccessDialog();
-      }
-      else {
+      } else {
         _showErrorDialog("Error: ${auth.error}");
       }
     } catch (e) {
       _showErrorDialog("Error: ${e.toString()}");
       print(e);
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -77,17 +83,20 @@ class _SignUpFormState extends State<SignUpForm> {
         SH10,
         ConfirmPasswordInput(),
         SH20,
-        ElevatedButton(
-          onPressed: () {
-            if (_passwordController.text == _confirmPasswordController.text) {
-              _signupUser(_emailController.text, _passwordController.text);
-            }
-            else {
-              _showErrorDialog("Password do not match");
-            }
-          },
-          child: const Text("Sign Up"),
-        ),
+        isLoading
+            ? const CircularProgressIndicator()
+            : ElevatedButton(
+                onPressed: () {
+                  if (_passwordController.text ==
+                      _confirmPasswordController.text) {
+                    _signupUser(_emailController.text, _passwordController.text,
+                        _nameController.text);
+                  } else {
+                    _showErrorDialog("Password do not match");
+                  }
+                },
+                child: const Text("Sign Up"),
+              ),
       ],
     );
   }

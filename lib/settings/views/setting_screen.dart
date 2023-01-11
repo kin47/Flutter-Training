@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/authentication/model/authentication.dart';
+import 'package:flutter_training/authentication/ViewModel/authentication.dart';
 import 'package:flutter_training/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -16,8 +16,8 @@ class SettingScreen extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () async {
-              Authentication _auth=Provider.of<Authentication>(context, listen: false);
-              if(await _auth.logOut()) {
+              Authentication auth=Provider.of<Authentication>(context, listen: false);
+              if(await auth.logOut()) {
                 Navigator.of(context).pushNamedAndRemoveUntil(RouteName.root, (route) => false);
               }
             },

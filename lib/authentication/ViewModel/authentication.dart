@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_training/core/model/user.dart';
+import 'package:flutter_training/core/services/database.dart';
 
 class Authentication extends ChangeNotifier {
-  OurUser _user=OurUser();
-  String? _error;
+  OurUser _currentUser=OurUser();
+  OurUser? get currentUser => _currentUser;
 
-  OurUser? get user => _user;
+  String? _error;
   String? get error => _error;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -14,8 +15,8 @@ class Authentication extends ChangeNotifier {
     bool isSuccess = false;
     try {
       User firebaseUser = _auth.currentUser!;
-      _user.uid = firebaseUser.uid;
-      _user.email = firebaseUser.email;
+      _currentUser.uid = firebaseUser.uid;
+      _currentUser.email = firebaseUser.email;
       isSuccess = true;
     } catch (e) {
       print(e);
@@ -23,12 +24,17 @@ class Authentication extends ChangeNotifier {
     return isSuccess;
   }
 
-  Future<bool> signUp(String email, String password) async {
+  Future<bool> signUp(String email, String password, String name) async {
+    OurUser newUser=OurUser();
     bool retVal = false;
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
-      if (userCredential.user != null) {
+      newUser.uid=userCredential.user!.uid;
+      newUser.email=userCredential.user!.email;
+      newUser.name=name;
+      bool createSuccess=await OurDatabase().createUser(newUser);
+      if (userCredential.user != null && createSuccess) {
         retVal = true;
       }
     } catch (e) {
@@ -44,8 +50,8 @@ class Authentication extends ChangeNotifier {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       if (userCredential.user != null) {
-        _user.uid = userCredential.user!.uid;
-        _user.uid = userCredential.user!.email;
+        _currentUser.uid = userCredential.user!.uid;
+        _currentUser.uid = userCredential.user!.email;
         retVal = true;
       }
     } catch (e) {
@@ -59,7 +65,7 @@ class Authentication extends ChangeNotifier {
     bool isSuccess = false;
     try {
       await _auth.signOut();
-      _user=OurUser();
+      _currentUser=OurUser();
       isSuccess = true;
     } catch (e) {
       print(e);

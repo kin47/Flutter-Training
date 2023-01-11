@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_training/authentication/model/authentication.dart';
+import 'package:flutter_training/authentication/ViewModel/authentication.dart';
 import 'package:flutter_training/routes/app_pages.dart';
 import 'package:flutter_training/routes/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';

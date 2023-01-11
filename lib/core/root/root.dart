@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/authentication/model/authentication.dart';
+import 'package:flutter_training/authentication/ViewModel/authentication.dart';
 import 'package:flutter_training/authentication/views/login_screen.dart';
 import 'package:flutter_training/home/views/home_screen.dart';
 import 'package:provider/provider.dart';
