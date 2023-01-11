@@ -15,8 +15,8 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   bool obscureTxt = true;
   bool isLoading = false;
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   void _showErrorDialog(String message) {
     var snackbar = SnackBar(
@@ -30,18 +30,23 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Future<void> _loginUser(String email, String password) async {
-    isLoading = true;
-    Authenticate _auth = Provider.of<Authenticate>(context, listen: false);
+    setState(() {
+      isLoading=true;
+    });
+    Authenticate auth = Provider.of<Authenticate>(context, listen: false);
     try {
-      if (await _auth.logIn(email, password)) {
+      if (await auth.logIn(email, password)) {
         Navigator.of(context).pushReplacementNamed(RouteName.home);
       } else {
-        _showErrorDialog("Error: ${_auth.error.toString()}");
+        _showErrorDialog("Error: ${auth.error.toString()}");
       }
     } catch (e) {
       print(e);
       _showErrorDialog("Error: ${e.toString()}");
     }
+    setState(() {
+      isLoading=false;
+    });
   }
 
   @override

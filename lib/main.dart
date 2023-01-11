@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           secondaryHeaderColor: const Color(0xFFF52DAA),
           backgroundColor: const Color(0xFFF3F4F6),
         ),
-        initialRoute: RouteName.login,
+        initialRoute: RouteName.root,
         routes: AppPages.routes,
       ),
     );

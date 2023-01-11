@@ -12,10 +12,10 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   bool obscureTxt = true;
 
   void _showErrorDialog(String message) {
@@ -48,13 +48,13 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Future<void> _signupUser(
       String email, String password) async {
-    Authenticate _auth = Provider.of<Authenticate>(context, listen: false);
+    Authenticate auth = Provider.of<Authenticate>(context, listen: false);
     try {
-      if (await _auth.signUp(email, password)) {
+      if (await auth.signUp(email, password)) {
         _showSuccessDialog();
       }
       else {
-        _showErrorDialog("Error: ${_auth.error}");
+        _showErrorDialog("Error: ${auth.error}");
       }
     } catch (e) {
       _showErrorDialog("Error: ${e.toString()}");

@@ -1,26 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_training/core/model/user.dart';
 
 class Authenticate extends ChangeNotifier {
-  String? _uid;
-  String? _email;
-  String? error;
+  OurUser _user=OurUser();
+  String? _error;
 
-  String? get uid => _uid;
+  OurUser? get user => _user;
+  String? get error => _error;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  String? get email => _email;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<bool> onStartUp() async {
+    bool isSuccess = false;
+    try {
+      User firebaseUser = _auth.currentUser!;
+      _user.uid = firebaseUser.uid;
+      _user.email = firebaseUser.email;
+      isSuccess = true;
+    } catch (e) {
+      print(e);
+    }
+    return isSuccess;
+  }
 
   Future<bool> signUp(String email, String password) async {
     bool retVal = false;
     try {
-      UserCredential _userCredential = await _auth
+      UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
-      if (_userCredential.user != null) {
+      if (userCredential.user != null) {
         retVal = true;
       }
     } catch (e) {
-      error = e.toString();
+      _error = e.toString();
       print(e);
     }
     return retVal;
@@ -29,17 +41,29 @@ class Authenticate extends ChangeNotifier {
   Future<bool> logIn(String email, String password) async {
     bool retVal = false;
     try {
-      UserCredential _userCredential = await _auth.signInWithEmailAndPassword(
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      if (_userCredential.user != null) {
-        _uid = _userCredential.user!.uid;
-        _email = _userCredential.user!.email;
+      if (userCredential.user != null) {
+        _user.uid = userCredential.user!.uid;
+        _user.uid = userCredential.user!.email;
         retVal = true;
       }
     } catch (e) {
-      error = e.toString();
+      _error = e.toString();
       print(e);
     }
     return retVal;
+  }
+
+  Future<bool> logOut() async {
+    bool isSuccess = false;
+    try {
+      await _auth.signOut();
+      _user=OurUser();
+      isSuccess = true;
+    } catch (e) {
+      print(e);
+    }
+    return isSuccess;
   }
 }
