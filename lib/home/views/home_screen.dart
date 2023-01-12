@@ -18,6 +18,23 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text("My books"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(RouteName.library);
+              },
+              child: const Text("Visit the library"),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

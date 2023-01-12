@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/authentication/widgets/form_background.dart';
-import 'package:flutter_training/authentication/widgets/signup_form.dart';
+import 'package:flutter_training/user/widgets/form_background.dart';
+import 'package:flutter_training/user/widgets/signup_form.dart';
 import 'package:flutter_training/ui_spacing.dart';
 
 class SignUpScreen extends StatelessWidget {

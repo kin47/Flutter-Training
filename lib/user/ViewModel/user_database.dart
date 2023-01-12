@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_training/core/model/user.dart';
+import 'package:flutter_training/user/model/user.dart';
 
-class OurDatabase{
+class UserDatabase{
   final FirebaseFirestore _firebaseFirestore=FirebaseFirestore.instance;
 
   Future<bool> createUser(OurUser user) async {

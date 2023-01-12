@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/authentication/ViewModel/authentication.dart';
-import 'package:flutter_training/authentication/widgets/input_decoration.dart';
+import 'package:flutter_training/ui_spacing.dart';
+import 'package:flutter_training/user/ViewModel/authentication.dart';
+import 'package:flutter_training/user/widgets/input_decoration.dart';
 import 'package:flutter_training/routes/app_routes.dart';
 import 'package:provider/provider.dart';
-import '../../ui_spacing.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);

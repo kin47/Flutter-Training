@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_training/core/model/user.dart';
-import 'package:flutter_training/core/services/database.dart';
+import 'package:flutter_training/user/model/user.dart';
+import 'package:flutter_training/user/ViewModel/user_database.dart';
 
 class Authentication extends ChangeNotifier {
   OurUser _currentUser=OurUser();
@@ -33,7 +33,7 @@ class Authentication extends ChangeNotifier {
       newUser.uid=userCredential.user!.uid;
       newUser.email=userCredential.user!.email;
       newUser.name=name;
-      bool createSuccess=await OurDatabase().createUser(newUser);
+      bool createSuccess=await UserDatabase().createUser(newUser);
       if (userCredential.user != null && createSuccess) {
         retVal = true;
       }
