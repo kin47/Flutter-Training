@@ -32,4 +32,19 @@ class UserDatabase{
     }
     return retVal;
   }
+
+  Future<bool> borrowedBooks(String userId, String bookId) async {
+    bool isSuccess=false;
+    List<String> books=[];
+    try{
+      books.add(bookId);
+      await _firebaseFirestore.collection("user").doc(userId).update({
+        'borrowedBooks' : FieldValue.arrayUnion(books),
+      });
+      isSuccess=true;
+    }catch(e) {
+      print(e);
+    }
+    return isSuccess;
+  }
 }

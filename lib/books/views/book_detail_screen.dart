@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/books/model/book.dart';
 import 'package:flutter_training/ui_spacing.dart';
+import 'package:flutter_training/user/ViewModel/authentication.dart';
+import 'package:flutter_training/user/ViewModel/user_database.dart';
+import 'package:provider/provider.dart';
 
 class BookDetailScreen extends StatelessWidget {
   const BookDetailScreen({
@@ -9,6 +12,17 @@ class BookDetailScreen extends StatelessWidget {
   }) : super(key: key);
 
   final Book book;
+
+  void _showSuccessDialog(BuildContext context, String message) {
+    var snackbar = SnackBar(
+      content: Text(message),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      behavior: SnackBarBehavior.floating,
+      shape: const StadiumBorder(),
+      duration: const Duration(seconds: 3),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +80,15 @@ class BookDetailScreen extends StatelessWidget {
             ),
             SH20,
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                var auth= Provider.of<Authentication>(context, listen: false);
+                if(await UserDatabase().borrowedBooks(auth.currentUser!.uid!, book.bid)){
+                  _showSuccessDialog(context, "Borrowed books successfully");
+                }
+                else {
+                  print("Loi: ");
+                }
+              },
               child: const Text("Borrow this book"),
             ),
           ],
