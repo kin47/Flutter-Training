@@ -1,39 +1,33 @@
-import 'dart:convert';
-
 import 'package:flutter_training/books/ViewModel/book_database.dart';
 import 'package:flutter_training/books/model/book.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 class BookApi {
-  var url = Uri.parse("https://63bf738ce262345656e97157.mockapi.io/books");
   Future<List<Book>> getBookData() async {
     List<Book> listBook=[];
-    var response = await http.get(url);
-    var returnData = json.decode(response.body);
-    if (response.statusCode == 200) {
-      print("Success");
-      print(returnData);
-      for (int i = 0; i < returnData.length; i++) {
-        Book book = Book(
-          bid: returnData[i]['id'],
-          name: returnData[i]['name'],
-          page: returnData[i]['page'],
-          image: returnData[i]['image'],
-          author: returnData[i]['author'],
-          genre: returnData[i]['genre'],
-          publishYear: returnData[i]['publish_year'],
-          description: returnData[i]['description'],
-        );
-        listBook.add(book);
-        try{
-          await BookDatabase().createBook(book);
-        }catch (e) {
-          print(e);
+    var dio=Dio();
+    try{
+      var response = await dio.get("https://63bf738ce262345656e97157.mockapi.io/books");
+      if(response.statusCode==200) {
+        for(var returnData in response.data) {
+          Book book = Book(
+            bid: returnData['id'],
+            name: returnData['name'],
+            page: returnData['page'],
+            image: returnData['image'],
+            author: returnData['author'],
+            genre: returnData['genre'],
+            publishYear: returnData['publish_year'],
+            description: returnData['description'],
+          );
+          listBook.add(book);
         }
       }
-    } else {
-      print("Loi");
-      print(response.statusCode);
+      else{
+        print("Loi API 1: ${response.statusCode}");
+      }
+    }catch(e) {
+      print("Loi API 2: $e");
     }
     return listBook;
   }

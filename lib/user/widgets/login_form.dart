@@ -29,7 +29,7 @@ class _LoginFormState extends State<LoginForm> {
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
-  Future<void> _loginUser(String email, String password) async {
+  void _loginUser(String email, String password) async {
     setState(() {
       isLoading=true;
     });

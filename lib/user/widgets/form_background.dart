@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../ui_spacing.dart';
+import 'package:flutter_training/ui_spacing.dart';
 
 class FormBackground extends StatelessWidget {
   const FormBackground({

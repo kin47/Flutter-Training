@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/books/model/book.dart';
 import 'package:flutter_training/books/views/book_detail_screen.dart';
-import 'package:flutter_training/routes/app_routes.dart';
 import 'package:flutter_training/ui_spacing.dart';
 
 class BookCard extends StatelessWidget {
   const BookCard({
     Key? key,
-    required this.thisBook,
+    required this.book,
   }) : super(key: key);
 
-  final Book thisBook;
+  final Book book;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class BookCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BookDetail(thisBook: thisBook),
+            builder: (context) => BookDetailScreen(book: book),
           ),
         );
       },
@@ -34,7 +33,7 @@ class BookCard extends StatelessWidget {
           children: [
             SW12,
             Image.network(
-              thisBook.image!,
+              book.image!,
               height: 90,
               fit: BoxFit.fitHeight,
             ),
@@ -44,7 +43,7 @@ class BookCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  thisBook.name,
+                  book.name,
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -52,14 +51,14 @@ class BookCard extends StatelessWidget {
                 ),
                 SH5,
                 Text(
-                  "Author: ${thisBook.author}",
+                  "Author: ${book.author}",
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
                 Text(
-                  "Genre: ${thisBook.genre}",
+                  "Genre: ${book.genre}",
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,

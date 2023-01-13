@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_training/user/model/user.dart';
+import 'package:flutter_training/user/model/our_user.dart';
 
 class UserDatabase{
   final FirebaseFirestore _firebaseFirestore=FirebaseFirestore.instance;
-
+  String? getName;
   Future<bool> createUser(OurUser user) async {
     bool isSuccess=false;
     try{
@@ -17,5 +17,19 @@ class UserDatabase{
       print(e);
     }
     return isSuccess;
+  }
+
+  Future<OurUser> getUserInfo(String uid) async {
+    OurUser retVal=OurUser();
+    DocumentSnapshot documentSnapshot;
+    try{
+      documentSnapshot=await _firebaseFirestore.collection("user").doc(uid).get();
+      retVal.uid=uid;
+      retVal.email=documentSnapshot['email'];
+      retVal.name=documentSnapshot['name'];
+    } catch(e) {
+      print(e);
+    }
+    return retVal;
   }
 }

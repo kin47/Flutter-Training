@@ -14,6 +14,6 @@ class AppPages {
     RouteName.signup: (ctx) => const SignUpScreen(),
     RouteName.home: (ctx) => const HomeScreen(),
     RouteName.settings: (ctx) => const SettingScreen(),
-    RouteName.library: (ctx) => const Library(),
+    RouteName.library: (ctx) => const LibraryScreen(),
   };
 }

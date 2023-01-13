@@ -48,7 +48,7 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  Future<void> _signupUser(String email, String password, String name) async {
+  void _signupUser(String email, String password, String name) async {
     setState(() {
       isLoading = true;
     });

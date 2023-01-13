@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_training/user/model/user.dart';
+import 'package:flutter_training/user/model/our_user.dart';
 import 'package:flutter_training/user/ViewModel/user_database.dart';
 
 class Authentication extends ChangeNotifier {
