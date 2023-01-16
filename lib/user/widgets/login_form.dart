@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/ui_spacing.dart';
+import 'package:flutter_training/helpers/ui_spacing.dart';
+import 'package:flutter_training/routes/app_routes.dart';
 import 'package:flutter_training/user/ViewModel/authentication.dart';
 import 'package:flutter_training/user/widgets/input_decoration.dart';
-import 'package:flutter_training/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
@@ -31,21 +31,22 @@ class _LoginFormState extends State<LoginForm> {
 
   void _loginUser(String email, String password) async {
     setState(() {
-      isLoading=true;
+      isLoading = true;
     });
     Authentication auth = Provider.of<Authentication>(context, listen: false);
     try {
       if (await auth.logIn(email, password)) {
-        Navigator.of(context).pushReplacementNamed(RouteName.home);
+        if(await auth.onStartUp()) {
+          Navigator.of(context).pushReplacementNamed(RouteName.home);
+        }
       } else {
         _showErrorDialog("Error: ${auth.error.toString()}");
       }
     } catch (e) {
-      print(e);
       _showErrorDialog("Error: ${e.toString()}");
     }
     setState(() {
-      isLoading=false;
+      isLoading = false;
     });
   }
 

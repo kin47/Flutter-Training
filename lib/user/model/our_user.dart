@@ -5,13 +5,11 @@ class OurUser {
   String? name;
   String? email;
   Timestamp? accountCreated;
-  List<String>? borrowedBooks;
 
   OurUser({
     this.email,
     this.name,
     this.uid,
     this.accountCreated,
-    this.borrowedBooks,
   });
 }

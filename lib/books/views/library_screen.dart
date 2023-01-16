@@ -43,9 +43,7 @@ class _LibraryState extends State<LibraryScreen> {
               itemCount: listBooks!.length,
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          BookApi().getBookData();
-        },
+        onPressed: () {},
         child: const Icon(Icons.add),
       ),
     );

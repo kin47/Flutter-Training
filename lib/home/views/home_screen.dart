@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/routes/app_routes.dart';
+import 'package:flutter_training/user/ViewModel/authentication.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Authentication auth=Provider.of<Authentication>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Hi!"),
+        title: Text("Hi ${auth.currentUser!.name}"),
         actions: [
           IconButton(
             onPressed: () {
@@ -22,7 +25,9 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(RouteName.mybooks);
+              },
               child: const Text("My books"),
             ),
             ElevatedButton(

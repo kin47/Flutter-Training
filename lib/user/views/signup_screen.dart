@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/user/widgets/form_background.dart';
 import 'package:flutter_training/user/widgets/signup_form.dart';
-import 'package:flutter_training/ui_spacing.dart';
+import 'package:flutter_training/helpers/ui_spacing.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);

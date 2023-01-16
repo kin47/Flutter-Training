@@ -1,12 +1,13 @@
 import 'package:flutter_training/books/model/book.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_training/books/remote/api.dart';
 
 class BookApi {
   Future<List<Book>> getBookData() async {
     List<Book> listBook=[];
     var dio=Dio();
     try{
-      var response = await dio.get("https://63bf738ce262345656e97157.mockapi.io/books");
+      var response = await dio.get(API.url);
       if(response.statusCode==200) {
         for(var returnData in response.data) {
           Book book = Book(

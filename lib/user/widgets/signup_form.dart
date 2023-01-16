@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/user/ViewModel/authentication.dart';
 import 'package:flutter_training/user/widgets/input_decoration.dart';
-import 'package:flutter_training/ui_spacing.dart';
+import 'package:flutter_training/helpers/ui_spacing.dart';
 import 'package:provider/provider.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -39,6 +39,7 @@ class _SignUpFormState extends State<SignUpForm> {
         actions: <Widget>[
           TextButton(
             onPressed: () {
+              Navigator.of(ctx).pop();
               Navigator.of(ctx).pop();
             },
             child: const Text("Back to Login Screen"),

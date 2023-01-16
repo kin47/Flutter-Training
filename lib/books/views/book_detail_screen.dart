@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/books/model/book.dart';
-import 'package:flutter_training/ui_spacing.dart';
+import 'package:flutter_training/helpers/ui_spacing.dart';
+import 'package:flutter_training/my_books/ViewModel/mybook_database.dart';
 import 'package:flutter_training/user/ViewModel/authentication.dart';
-import 'package:flutter_training/user/ViewModel/user_database.dart';
 import 'package:provider/provider.dart';
 
 class BookDetailScreen extends StatelessWidget {
@@ -28,7 +28,7 @@ class BookDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(book.name),
+        title: Text(book.name!),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -82,11 +82,11 @@ class BookDetailScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 var auth= Provider.of<Authentication>(context, listen: false);
-                if(await UserDatabase().borrowedBooks(auth.currentUser!.uid!, book.bid)){
+                if(await MyBookDatabase().borrowedBooks(auth.currentUser!.uid!, book)){
                   _showSuccessDialog(context, "Borrowed books successfully");
                 }
                 else {
-                  print("Loi: ");
+                  print("Loi khong muon duoc sach (book_detail_screen)");
                 }
               },
               child: const Text("Borrow this book"),

@@ -21,4 +21,23 @@ class BookDatabase{
     }
     return isSuccess;
   }
+
+  Future<Book> getBookInfo(String bid) async {
+    Book book=Book(bid: bid);
+    DocumentSnapshot documentSnapshot;
+    try{
+      documentSnapshot=await _firebaseFirestore.collection("books").doc(bid).get();
+      book.bid=bid;
+      book.name=documentSnapshot['name'];
+      book.description=documentSnapshot['description'];
+      book.page=documentSnapshot['page'];
+      book.publishYear=documentSnapshot['publish_year'];
+      book.genre=documentSnapshot['genre'];
+      book.image=documentSnapshot['image'];
+      book.author=documentSnapshot['author'];
+    }catch(e) {
+      print("Loi khong lay duoc in4 sach: $e");
+    }
+    return book;
+  }
 }

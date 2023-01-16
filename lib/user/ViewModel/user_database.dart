@@ -1,50 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_training/user/model/our_user.dart';
 
-class UserDatabase{
-  final FirebaseFirestore _firebaseFirestore=FirebaseFirestore.instance;
-  String? getName;
+class UserDatabase {
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
   Future<bool> createUser(OurUser user) async {
-    bool isSuccess=false;
-    try{
+    bool isSuccess = false;
+    try {
       await _firebaseFirestore.collection("user").doc(user.uid).set({
-        'name' : user.name,
-        'email' : user.email,
-        'accountCreated' : Timestamp.now(),
+        'name': user.name,
+        'email': user.email,
+        'accountCreated': Timestamp.now(),
       });
-      isSuccess=true;
-    } catch(e) {
+      isSuccess = true;
+    } catch (e) {
       print(e);
     }
     return isSuccess;
   }
 
   Future<OurUser> getUserInfo(String uid) async {
-    OurUser retVal=OurUser();
+    OurUser retVal = OurUser();
     DocumentSnapshot documentSnapshot;
-    try{
-      documentSnapshot=await _firebaseFirestore.collection("user").doc(uid).get();
-      retVal.uid=uid;
-      retVal.email=documentSnapshot['email'];
-      retVal.name=documentSnapshot['name'];
-    } catch(e) {
-      print(e);
+    try {
+      documentSnapshot =
+          await _firebaseFirestore.collection("user").doc(uid).get();
+      retVal.uid = uid;
+      retVal.email = documentSnapshot['email'];
+      retVal.name = documentSnapshot['name'];
+      retVal.accountCreated = documentSnapshot['accountCreated'];
+    } catch (e) {
+      print("Loi khong lay duoc in4 user trong database: $e");
     }
     return retVal;
-  }
-
-  Future<bool> borrowedBooks(String userId, String bookId) async {
-    bool isSuccess=false;
-    List<String> books=[];
-    try{
-      books.add(bookId);
-      await _firebaseFirestore.collection("user").doc(userId).update({
-        'borrowedBooks' : FieldValue.arrayUnion(books),
-      });
-      isSuccess=true;
-    }catch(e) {
-      print(e);
-    }
-    return isSuccess;
   }
 }

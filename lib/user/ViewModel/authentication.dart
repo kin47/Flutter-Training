@@ -15,11 +15,10 @@ class Authentication extends ChangeNotifier {
     bool isSuccess = false;
     try {
       User firebaseUser = _auth.currentUser!;
-      _currentUser.uid = firebaseUser.uid;
-      _currentUser.email = firebaseUser.email;
+      _currentUser= await UserDatabase().getUserInfo(firebaseUser.uid);
       isSuccess = true;
     } catch (e) {
-      print(e);
+      print("Start up in Authentication class Error: $e");
     }
     return isSuccess;
   }
@@ -39,7 +38,7 @@ class Authentication extends ChangeNotifier {
       }
     } catch (e) {
       _error = e.toString();
-      print(e);
+      print("Sign up in Authentication class Error: $e");
     }
     return retVal;
   }
@@ -51,12 +50,12 @@ class Authentication extends ChangeNotifier {
           email: email, password: password);
       if (userCredential.user != null) {
         _currentUser.uid = userCredential.user!.uid;
-        _currentUser.uid = userCredential.user!.email;
+        _currentUser.email = userCredential.user!.email;
         retVal = true;
       }
     } catch (e) {
       _error = e.toString();
-      print(e);
+      print("Log in Authentication class Error: $e");
     }
     return retVal;
   }
@@ -68,7 +67,7 @@ class Authentication extends ChangeNotifier {
       _currentUser=OurUser();
       isSuccess = true;
     } catch (e) {
-      print(e);
+      print("Log out in Authentication class Error: $e");
     }
     return isSuccess;
   }

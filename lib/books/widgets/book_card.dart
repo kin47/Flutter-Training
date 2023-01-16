@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/books/model/book.dart';
 import 'package:flutter_training/books/views/book_detail_screen.dart';
-import 'package:flutter_training/ui_spacing.dart';
+import 'package:flutter_training/helpers/ui_spacing.dart';
 
 class BookCard extends StatelessWidget {
   const BookCard({
@@ -43,7 +43,7 @@ class BookCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  book.name,
+                  book.name!,
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -65,7 +65,7 @@ class BookCard extends StatelessWidget {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

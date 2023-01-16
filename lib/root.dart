@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/user/ViewModel/authentication.dart';
+import 'package:flutter_training/user/model/our_user.dart';
 import 'package:flutter_training/user/views/login_screen.dart';
 import 'package:flutter_training/home/views/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ class RootScreen extends StatefulWidget {
 
 class _RootScreenState extends State<RootScreen> {
   bool loggedIn = false;
+  OurUser? user;
   @override
   void didChangeDependencies() async {
     // TODO: implement didChangeDependencies
@@ -20,6 +22,7 @@ class _RootScreenState extends State<RootScreen> {
     Authentication auth=Provider.of<Authentication>(context, listen: false);
     if(await auth.onStartUp()) {
       setState(() {
+        user=auth.currentUser;
         loggedIn=true;
       });
     }
