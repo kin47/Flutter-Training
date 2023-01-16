@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_training/user/ViewModel/authentication.dart';
 import 'package:flutter_training/user/widgets/input_decoration.dart';
 import 'package:flutter_training/helpers/ui_spacing.dart';
+import 'package:flutter_training/user/widgets/show_dialog.dart';
+import 'package:flutter_training/user/widgets/show_snackbar.dart';
 import 'package:provider/provider.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -15,38 +17,19 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   bool obscureTxt = true;
   bool isLoading = false;
 
-  void _showErrorDialog(String message) {
-    var snackbar = SnackBar(
-      content: Text(message),
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      behavior: SnackBarBehavior.floating,
-      shape: const StadiumBorder(),
-      duration: const Duration(seconds: 3),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  onObscureEyePress() {
+    setState(() {
+      obscureTxt = !obscureTxt;
+    });
   }
 
-  void _showSuccessDialog() {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text("Sign Up Successfully"),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              Navigator.of(ctx).pop();
-            },
-            child: const Text("Back to Login Screen"),
-          ),
-        ],
-      ),
-    );
+  dialogPress() {
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
   void _signupUser(String email, String password, String name) async {
@@ -56,13 +39,12 @@ class _SignUpFormState extends State<SignUpForm> {
     Authentication auth = Provider.of<Authentication>(context, listen: false);
     try {
       if (await auth.signUp(email, password, name)) {
-        _showSuccessDialog();
+        customShowDialog(context, dialogPress, "Sign Up Successfully", "Back to Login Screen");
       } else {
-        _showErrorDialog("Error: ${auth.error}");
+        showSnackBar(context, "Error: ${auth.error.toString()}");
       }
     } catch (e) {
-      _showErrorDialog("Error: ${e.toString()}");
-      print(e);
+      showSnackBar(context, "Error: ${e.toString()}");
     }
     setState(() {
       isLoading = false;
@@ -76,13 +58,13 @@ class _SignUpFormState extends State<SignUpForm> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SH30,
-        NameInput(),
+        nameInput(),
         SH10,
-        SignUpEmailInput(),
+        signUpEmailInput(),
         SH10,
-        SignUpPasswordInput(),
+        signUpPasswordInput(),
         SH10,
-        ConfirmPasswordInput(),
+        confirmPasswordInput(),
         SH20,
         isLoading
             ? const CircularProgressIndicator()
@@ -93,7 +75,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     _signupUser(_emailController.text, _passwordController.text,
                         _nameController.text);
                   } else {
-                    _showErrorDialog("Password do not match");
+                    showSnackBar(context, "Password do not match");
                   }
                 },
                 child: const Text("Sign Up"),
@@ -102,7 +84,7 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  Padding NameInput() {
+  Padding nameInput() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
@@ -113,7 +95,7 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  Padding SignUpEmailInput() {
+  Padding signUpEmailInput() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
@@ -125,67 +107,26 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  Padding SignUpPasswordInput() {
+  Padding signUpPasswordInput() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         controller: _passwordController,
-        decoration: passwordInputDecoration("Password"),
+        decoration: passwordInputDecoration("Password", onObscureEyePress),
         obscureText: obscureTxt,
         textInputAction: TextInputAction.next,
       ),
     );
   }
 
-  Padding ConfirmPasswordInput() {
+  Padding confirmPasswordInput() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         controller: _confirmPasswordController,
-        decoration: passwordInputDecoration("Confirm Password"),
+        decoration: passwordInputDecoration("Confirm Password", onObscureEyePress),
         obscureText: obscureTxt,
         textInputAction: TextInputAction.done,
-      ),
-    );
-  }
-
-  InputDecoration passwordInputDecoration(String txt) {
-    return InputDecoration(
-      enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey, width: 2.0),
-        borderRadius: BorderRadius.all(
-          Radius.circular(24),
-        ),
-      ),
-      errorBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey, width: 2.0),
-        borderRadius: BorderRadius.all(
-          Radius.circular(24),
-        ),
-      ),
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey, width: 2.0),
-        borderRadius: BorderRadius.all(
-          Radius.circular(24),
-        ),
-      ),
-      focusedErrorBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey, width: 2.0),
-        borderRadius: BorderRadius.all(
-          Radius.circular(24),
-        ),
-      ),
-      contentPadding: const EdgeInsets.symmetric(vertical: 14),
-      focusColor: const Color(0xFF361A79),
-      hintText: txt,
-      prefixIcon: const Icon(Icons.lock),
-      suffixIcon: IconButton(
-        icon: const Icon(Icons.remove_red_eye),
-        onPressed: () {
-          setState(() {
-            obscureTxt = !obscureTxt;
-          });
-        },
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_training/helpers/ui_spacing.dart';
 import 'package:flutter_training/routes/app_routes.dart';
 import 'package:flutter_training/user/ViewModel/authentication.dart';
 import 'package:flutter_training/user/widgets/input_decoration.dart';
+import 'package:flutter_training/user/widgets/show_snackbar.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
@@ -18,15 +19,10 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  void _showErrorDialog(String message) {
-    var snackbar = SnackBar(
-      content: Text(message),
-      margin: const EdgeInsets.only(left: 24, right: 24),
-      behavior: SnackBarBehavior.floating,
-      shape: const StadiumBorder(),
-      duration: const Duration(seconds: 3),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  onObscureEyePress() {
+    setState(() {
+      obscureTxt = !obscureTxt;
+    });
   }
 
   void _loginUser(String email, String password) async {
@@ -40,10 +36,10 @@ class _LoginFormState extends State<LoginForm> {
           Navigator.of(context).pushReplacementNamed(RouteName.home);
         }
       } else {
-        _showErrorDialog("Error: ${auth.error.toString()}");
+        showSnackBar(context, "Error: ${auth.error.toString()}");
       }
     } catch (e) {
-      _showErrorDialog("Error: ${e.toString()}");
+      showSnackBar(context, "Error: ${e.toString()}");
     }
     setState(() {
       isLoading = false;
@@ -58,9 +54,9 @@ class _LoginFormState extends State<LoginForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SH30,
-          LoginEmailInput(),
+          loginEmailInput(),
           SH10,
-          LoginPasswordInput(),
+          loginPasswordInput(),
           SH20,
           isLoading
               ? const CircularProgressIndicator()
@@ -75,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  Padding LoginEmailInput() {
+  Padding loginEmailInput() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
@@ -86,54 +82,13 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  Padding LoginPasswordInput() {
+  Padding loginPasswordInput() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         controller: _passwordController,
         obscureText: obscureTxt,
-        decoration: passwordInputDecoration("Password"),
-      ),
-    );
-  }
-
-  InputDecoration passwordInputDecoration(String txt) {
-    return InputDecoration(
-      enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey, width: 2.0),
-        borderRadius: BorderRadius.all(
-          Radius.circular(24),
-        ),
-      ),
-      errorBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey, width: 2.0),
-        borderRadius: BorderRadius.all(
-          Radius.circular(24),
-        ),
-      ),
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey, width: 2.0),
-        borderRadius: BorderRadius.all(
-          Radius.circular(24),
-        ),
-      ),
-      focusedErrorBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey, width: 2.0),
-        borderRadius: BorderRadius.all(
-          Radius.circular(24),
-        ),
-      ),
-      contentPadding: const EdgeInsets.symmetric(vertical: 14),
-      focusColor: const Color(0xFF361A79),
-      hintText: txt,
-      prefixIcon: const Icon(Icons.lock),
-      suffixIcon: IconButton(
-        icon: const Icon(Icons.remove_red_eye),
-        onPressed: () {
-          setState(() {
-            obscureTxt = !obscureTxt;
-          });
-        },
+        decoration: passwordInputDecoration("Password", onObscureEyePress),
       ),
     );
   }

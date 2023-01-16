@@ -34,4 +34,17 @@ class UserDatabase {
     }
     return retVal;
   }
+
+  Future<bool> changeName(String uid, String newName) async {
+    bool isSuccess = false;
+    try{
+      await _firebaseFirestore.collection("user").doc(uid).update({
+        'name' : newName,
+      });
+      isSuccess=true;
+    } catch(e) {
+      print("Khong the doi ten: $e");
+    }
+    return isSuccess;
+  }
 }
