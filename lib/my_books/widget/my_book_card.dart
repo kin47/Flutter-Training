@@ -84,7 +84,7 @@ class MyBookCard extends StatelessWidget {
             onPressed: () async {
               Navigator.of(context).pop();
               var auth = Provider.of<Authentication>(context, listen: false);
-              MyBookDatabase().updateRatingAndCurrentPage(auth.currentUser!.uid!, myBook);
+              MyBookDatabase().updateRatingAndCurrentPage(auth.currUser!.uid!, myBook);
             },
             child: const Text("Close"),
           ),

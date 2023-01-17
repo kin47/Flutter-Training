@@ -1,3 +1,4 @@
+import 'package:flutter_training/books/views/donate_book_screen.dart';
 import 'package:flutter_training/books/views/library_screen.dart';
 import 'package:flutter_training/home/views/home_screen.dart';
 import 'package:flutter_training/user/views/change_information_screen.dart';
@@ -18,5 +19,6 @@ class AppPages {
     RouteName.mybooks: (ctx) => const MyBooksScreen(),
     RouteName.home: (ctx) => const HomeScreen(),
     RouteName.changeInformation: (ctx) => const ChangeInformationScreen(),
+    RouteName.donate: (ctx) => DonateBookScreen(),
   };
 }

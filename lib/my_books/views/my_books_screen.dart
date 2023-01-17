@@ -26,7 +26,7 @@ class _MyBooksScreenState extends State<MyBooksScreen> {
   getListBorrowedBookData() async {
     var user = Provider.of<Authentication>(context, listen: false);
     listBorrowedBooks =
-        await MyBookDatabase().getAllMyBorrowedBooks(user.currentUser!.uid!);
+        await MyBookDatabase().getAllMyBorrowedBooks(user.currUser!.uid!);
     setState(() {
       isLoading = false;
     });
@@ -46,7 +46,7 @@ class _MyBooksScreenState extends State<MyBooksScreen> {
                   myBook: listBorrowedBooks![index],
                   remove: () {
                     var auth = Provider.of<Authentication>(context, listen: false);
-                    MyBookDatabase().removeMyBook(auth.currentUser!.uid!, listBorrowedBooks![index].bid);
+                    MyBookDatabase().removeMyBook(auth.currUser!.uid!, listBorrowedBooks![index].bid);
                   },
                 );
               },

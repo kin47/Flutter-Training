@@ -3,9 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_training/books/remote/api.dart';
 
 class BookApi {
+  var dio=Dio();
   Future<List<Book>> getBookData() async {
     List<Book> listBook=[];
-    var dio=Dio();
     try{
       var response = await dio.get(API.url);
       if(response.statusCode==200) {
@@ -30,5 +30,25 @@ class BookApi {
       print("Loi API 2: $e");
     }
     return listBook;
+  }
+
+  Future<bool> addBook(String name, String author, String image, String genre, String description, int page, int publishYear) async {
+    bool isSuccess=false;
+    try{
+      var response=await dio.post(API.url, data: {
+        'name' : name,
+        'author' : author,
+        'image' : image,
+        'genre' : genre,
+        'description' : description,
+        'page' : page,
+        'publish_year' : publishYear,
+      });
+      print(response.statusCode);
+      isSuccess=true;
+    }catch(e) {
+      print("Can't post to API");
+    }
+    return isSuccess;
   }
 }

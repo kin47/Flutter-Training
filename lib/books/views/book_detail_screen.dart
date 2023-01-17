@@ -82,7 +82,7 @@ class BookDetailScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 var auth= Provider.of<Authentication>(context, listen: false);
-                if(await MyBookDatabase().borrowedBooks(auth.currentUser!.uid!, book)){
+                if(await MyBookDatabase().borrowedBooks(auth.currUser!.uid!, book)){
                   _showSuccessDialog(context, "Borrowed books successfully");
                 }
                 else {
