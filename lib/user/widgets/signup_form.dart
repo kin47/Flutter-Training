@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_training/helpers/default_elevated_button.dart';
 import 'package:flutter_training/user/ViewModel/authentication.dart';
-import 'package:flutter_training/user/widgets/input_decoration.dart';
+import 'package:flutter_training/helpers/input_decoration.dart';
 import 'package:flutter_training/helpers/ui_spacing.dart';
-import 'package:flutter_training/user/widgets/show_dialog.dart';
-import 'package:flutter_training/user/widgets/show_snackbar.dart';
+import 'package:flutter_training/helpers/show_dialog.dart';
+import 'package:flutter_training/helpers/show_snackbar.dart';
 import 'package:provider/provider.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -68,8 +69,7 @@ class _SignUpFormState extends State<SignUpForm> {
         SH20,
         isLoading
             ? const CircularProgressIndicator()
-            : ElevatedButton(
-                onPressed: () {
+            : defaultElevatedButton(() {
                   if (_passwordController.text ==
                       _confirmPasswordController.text) {
                     _signupUser(_emailController.text, _passwordController.text,
@@ -78,7 +78,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     showSnackBar(context, "Password do not match");
                   }
                 },
-                child: const Text("Sign Up"),
+                "Sign Up", screenWidthPercentage(context, percentage: 0.3),
               ),
       ],
     );

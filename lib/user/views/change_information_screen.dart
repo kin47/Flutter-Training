@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_training/helpers/custom_scaffold.dart';
+import 'package:flutter_training/helpers/default_elevated_button.dart';
 import 'package:flutter_training/helpers/ui_spacing.dart';
 import 'package:flutter_training/routes/app_routes.dart';
 import 'package:flutter_training/user/ViewModel/authentication.dart';
 import 'package:flutter_training/user/ViewModel/user_database.dart';
-import 'package:flutter_training/user/widgets/input_decoration.dart';
-import 'package:flutter_training/user/widgets/show_dialog.dart';
-import 'package:flutter_training/user/widgets/show_snackbar.dart';
+import 'package:flutter_training/helpers/input_decoration.dart';
+import 'package:flutter_training/helpers/show_dialog.dart';
+import 'package:flutter_training/helpers/show_snackbar.dart';
 import 'package:provider/provider.dart';
 
 class ChangeInformationScreen extends StatefulWidget {
@@ -37,13 +39,11 @@ class _ChangeInformationScreenState extends State<ChangeInformationScreen> {
 
   onChangePassword() async {
     if (_newPasswordController.text.isNotEmpty &&
-        _newPasswordController.text ==
-            _confirmNewPasswordController.text) {
-      Authentication auth =
-      Provider.of<Authentication>(context, listen: false);
+        _newPasswordController.text == _confirmNewPasswordController.text) {
+      Authentication auth = Provider.of<Authentication>(context, listen: false);
       if (await auth.changePassword(_newPasswordController.text)) {
-        customShowDialog(context, onClose,
-            "Change Password Successfully", "Close");
+        customShowDialog(
+            context, onClose, "Change Password Successfully", "Close");
       }
     }
   }
@@ -51,18 +51,19 @@ class _ChangeInformationScreenState extends State<ChangeInformationScreen> {
   onDeleteAccount() async {
     Authentication auth = Provider.of<Authentication>(context, listen: false);
     Navigator.of(context).pop();
-    if (await auth.deleteAccount() && await UserDatabase().deleteAccount(auth.currUser!.uid!)) {
+    if (await auth.deleteAccount() &&
+        await UserDatabase().deleteAccount(auth.currUser!.uid!)) {
       showSnackBar(context, "Delete Account Successfully!");
-      Navigator.of(context).pushNamedAndRemoveUntil(RouteName.root, (route) => false);
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(RouteName.root, (route) => false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Change your information"),
-      ),
+    return defaultScaffold(
+      context,
+      appBar: defaultAppBar(context, "Change your information"),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -79,14 +80,19 @@ class _ChangeInformationScreenState extends State<ChangeInformationScreen> {
             SH10,
             nameInput(),
             SH20,
-            ElevatedButton(
-              onPressed: () async {
-                Authentication auth = Provider.of<Authentication>(context, listen: false);
-                if(await auth.changeAuthName(_nameController.text) && await UserDatabase().changeName(auth.currUser!.uid!, _nameController.text)) {
-                  customShowDialog(context, onClose, "Change name successfully", "Close");
+            defaultElevatedButton(
+              () async {
+                Authentication auth =
+                    Provider.of<Authentication>(context, listen: false);
+                if (await auth.changeAuthName(_nameController.text) &&
+                    await UserDatabase().changeName(
+                        auth.currUser!.uid!, _nameController.text)) {
+                  customShowDialog(
+                      context, onClose, "Change name successfully", "Close");
                 }
               },
-              child: const Text("Change name"),
+              "Change name",
+              screenWidthPercentage(context, percentage: 0.5),
             ),
             SH50,
             const Text("Change password"),
@@ -97,13 +103,15 @@ class _ChangeInformationScreenState extends State<ChangeInformationScreen> {
             SH10,
             confirmNewPasswordInput(),
             SH20,
-            ElevatedButton(
-              onPressed: onChangePassword,
-              child: const Text("Change Password"),
+            defaultElevatedButton(
+              onChangePassword,
+              "Change Password",
+              screenWidthPercentage(context, percentage: 0.5),
             ),
             TextButton(
               onPressed: () {
-                twoOptionsDialog(context, onDeleteAccount, onClose, "Do you want do delete your account?", "Yes", "No");
+                twoOptionsDialog(context, onDeleteAccount, onClose,
+                    "Do you want do delete your account?", "Yes", "No");
               },
               child: const Text(
                 "Delete account",

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_training/helpers/custom_scaffold.dart';
+import 'package:flutter_training/helpers/default_elevated_button.dart';
 import 'package:flutter_training/helpers/return_date.dart';
 import 'package:flutter_training/helpers/ui_spacing.dart';
 import 'package:flutter_training/routes/app_routes.dart';
@@ -10,10 +12,9 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Settings"),
-      ),
+    return defaultScaffold(
+      context,
+      appBar: defaultAppBar(context, "Settings"),
       body: Consumer<Authentication>(
         builder: (context, auth, child) {
           return Container(
@@ -32,10 +33,12 @@ class SettingScreen extends StatelessWidget {
                       children: [
                         Text("Username: ${auth.currUser!.name}"),
                         Text("Email: ${auth.currUser!.email}"),
-                        Text("Created date: ${ReturnDate.formatDate(auth.currUser!.accountCreated!)}"),
+                        Text(
+                            "Created date: ${ReturnDate.formatDate(auth.currUser!.accountCreated!)}"),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pushNamed(RouteName.changeInformation);
+                            Navigator.of(context)
+                                .pushNamed(RouteName.changeInformation);
                           },
                           child: const Text("Change information"),
                         ),
@@ -43,16 +46,16 @@ class SettingScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () async {
+                SH10,
+                defaultElevatedButton (() async {
                     Authentication auth =
-                    Provider.of<Authentication>(context, listen: false);
+                        Provider.of<Authentication>(context, listen: false);
                     if (await auth.logOut()) {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           RouteName.root, (route) => false);
                     }
                   },
-                  child: const Text("Log out"),
+                  "Log out", screenWidthPercentage(context, percentage: 0.5),
                 ),
               ],
             ),

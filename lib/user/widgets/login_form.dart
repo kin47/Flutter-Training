@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_training/helpers/default_elevated_button.dart';
 import 'package:flutter_training/helpers/ui_spacing.dart';
 import 'package:flutter_training/routes/app_routes.dart';
 import 'package:flutter_training/user/ViewModel/authentication.dart';
-import 'package:flutter_training/user/widgets/input_decoration.dart';
-import 'package:flutter_training/user/widgets/show_snackbar.dart';
+import 'package:flutter_training/helpers/input_decoration.dart';
+import 'package:flutter_training/helpers/show_snackbar.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
@@ -32,7 +33,7 @@ class _LoginFormState extends State<LoginForm> {
     Authentication auth = Provider.of<Authentication>(context, listen: false);
     try {
       if (await auth.logIn(email, password)) {
-        if(await auth.onStartUp()) {
+        if (await auth.onStartUp()) {
           Navigator.of(context).pushReplacementNamed(RouteName.home);
         }
       } else {
@@ -60,11 +61,12 @@ class _LoginFormState extends State<LoginForm> {
           SH20,
           isLoading
               ? const CircularProgressIndicator()
-              : ElevatedButton(
-                  onPressed: () {
+              : defaultElevatedButton(
+                  () {
                     _loginUser(_emailController.text, _passwordController.text);
                   },
-                  child: const Text("Log In"),
+                  "Log In",
+                  screenWidthPercentage(context, percentage: 0.3),
                 ),
         ],
       ),

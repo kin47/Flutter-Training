@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_training/helpers/custom_scaffold.dart';
 import 'package:flutter_training/user/widgets/form_background.dart';
 import 'package:flutter_training/user/widgets/signup_form.dart';
 import 'package:flutter_training/helpers/ui_spacing.dart';
@@ -7,12 +8,12 @@ class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
+    return defaultScaffold(context,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
+      extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Container(
           height: screenHeight(context),

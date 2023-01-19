@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_training/helpers/custom_scaffold.dart';
 import 'package:flutter_training/my_books/ViewModel/mybook_database.dart';
 import 'package:flutter_training/my_books/model/mybook.dart';
 import 'package:flutter_training/my_books/widget/my_book_card.dart';
@@ -34,21 +35,14 @@ class _MyBooksScreenState extends State<MyBooksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("My books"),
-      ),
+    return defaultScaffold(
+      context,
+      appBar: defaultAppBar(context, "My books"),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemBuilder: (context, index) {
-                return MyBookCard(
-                  myBook: listBorrowedBooks![index],
-                  remove: () {
-                    var auth = Provider.of<Authentication>(context, listen: false);
-                    MyBookDatabase().removeMyBook(auth.currUser!.uid!, listBorrowedBooks![index].bid);
-                  },
-                );
+                return MyBookCard(myBook: listBorrowedBooks![index]);
               },
               itemCount: listBorrowedBooks!.length,
             ),

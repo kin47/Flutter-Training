@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/books/ViewModel/book_api.dart';
+import 'package:flutter_training/helpers/custom_scaffold.dart';
 import 'package:flutter_training/helpers/ui_spacing.dart';
-import 'package:flutter_training/user/widgets/input_decoration.dart';
+import 'package:flutter_training/helpers/input_decoration.dart';
+import 'package:flutter_training/helpers/show_dialog.dart';
 
-class DonateBookScreen extends StatefulWidget {
-  const DonateBookScreen({Key? key}) : super(key: key);
+class DonateBookScreen extends StatelessWidget {
+  DonateBookScreen({Key? key}) : super(key: key);
 
-  @override
-  State<DonateBookScreen> createState() => _DonateBookScreenState();
-}
-
-class _DonateBookScreenState extends State<DonateBookScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _authorController = TextEditingController();
   final TextEditingController _genreController = TextEditingController();
@@ -21,10 +18,9 @@ class _DonateBookScreenState extends State<DonateBookScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Donate your book here"),
-      ),
+    return defaultScaffold(
+      context,
+      appBar: defaultAppBar(context, "Donate your book here"),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
@@ -50,14 +46,14 @@ class _DonateBookScreenState extends State<DonateBookScreen> {
           SH10,
           TextFormField(
             decoration:
-            inputDecoration("Genre", const Icon(Icons.type_specimen)),
+                inputDecoration("Genre", const Icon(Icons.type_specimen)),
             controller: _genreController,
             textInputAction: TextInputAction.next,
           ),
           SH10,
           TextFormField(
             decoration:
-            inputDecoration("Number of page", const Icon(Icons.numbers)),
+                inputDecoration("Number of page", const Icon(Icons.numbers)),
             controller: _pageController,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.number,
@@ -73,7 +69,7 @@ class _DonateBookScreenState extends State<DonateBookScreen> {
           SH10,
           TextFormField(
             decoration:
-            inputDecoration("Description", const Icon(Icons.description)),
+                inputDecoration("Description", const Icon(Icons.description)),
             controller: _descriptionController,
             textInputAction: TextInputAction.next,
             maxLines: 5,
@@ -87,7 +83,7 @@ class _DonateBookScreenState extends State<DonateBookScreen> {
                 width: (screenWidth(context) - 150) * 0.8,
                 child: TextFormField(
                   decoration:
-                  inputDecoration("Image URL", const Icon(Icons.image)),
+                      inputDecoration("Image URL", const Icon(Icons.image)),
                   maxLines: 5,
                   textInputAction: TextInputAction.done,
                   controller: _imageURLController,
@@ -98,7 +94,7 @@ class _DonateBookScreenState extends State<DonateBookScreen> {
           SH20,
           ElevatedButton(
             onPressed: () async {
-              if(await BookApi().addBook(
+              if (await BookApi().addBook(
                   _nameController.text,
                   _authorController.text,
                   _imageURLController.text,
@@ -106,7 +102,9 @@ class _DonateBookScreenState extends State<DonateBookScreen> {
                   _descriptionController.text,
                   int.parse(_pageController.text),
                   int.parse(_publishYearController.text))) {
-                print("Success");
+                customShowDialog(context, () {
+                  Navigator.of(context).pop();
+                }, "Thank you for donating your book", "Close");
               }
             },
             child: const Text("Donate"),
@@ -129,11 +127,11 @@ class _DonateBookScreenState extends State<DonateBookScreen> {
       child: _imageURLController.text.isEmpty
           ? const Text('Enter a URL')
           : FittedBox(
-        child: Image.network(
-          _imageURLController.text,
-          fit: BoxFit.cover,
-        ),
-      ),
+              child: Image.network(
+                _imageURLController.text,
+                fit: BoxFit.cover,
+              ),
+            ),
     );
   }
 }

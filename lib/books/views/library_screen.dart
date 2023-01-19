@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_training/books/ViewModel/book_api.dart';
 import 'package:flutter_training/books/model/book.dart';
 import 'package:flutter_training/books/widgets/book_card.dart';
+import 'package:flutter_training/helpers/custom_scaffold.dart';
 import 'package:flutter_training/routes/app_routes.dart';
 
 class LibraryScreen extends StatefulWidget {
@@ -31,10 +32,9 @@ class _LibraryState extends State<LibraryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Our library!"),
-      ),
+    return defaultScaffold(
+      context,
+      appBar: defaultAppBar(context, "Our library"),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
