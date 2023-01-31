@@ -9,7 +9,7 @@ import 'package:flutter_training/root.dart';
 import 'package:flutter_training/routes/app_routes.dart';
 import 'package:flutter_training/user/views/setting_screen.dart';
 
-class AppPages {
+abstract class AppPages {
   static final routes={
     RouteName.root: (ctx) => const RootScreen(),
     RouteName.login: (ctx) => const LoginScreen(),

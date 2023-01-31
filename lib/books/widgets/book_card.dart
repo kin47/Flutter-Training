@@ -32,10 +32,12 @@ class BookCard extends StatelessWidget {
         child: Row(
           children: [
             SW12,
-            Image.network(
-              book.image!,
+            FadeInImage(
+              placeholder: const AssetImage("assets/images/icon.png"),
+              image: NetworkImage(book.image!),
               height: 90,
-              fit: BoxFit.fitHeight,
+              width: 60,
+              fit: BoxFit.cover,
             ),
             SW12,
             Column(

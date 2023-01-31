@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_training/helpers/num_parse_extension.dart';
 import 'package:flutter_training/helpers/return_date.dart';
 import 'package:flutter_training/helpers/ui_spacing.dart';
 import 'package:flutter_training/my_books/ViewModel/mybook_database.dart';
@@ -22,6 +23,7 @@ class MyBookCard extends StatefulWidget {
 
 class _MyBookCardState extends State<MyBookCard> {
   bool isRemoved = false;
+
   void _showDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -43,74 +45,86 @@ class _MyBookCardState extends State<MyBookCard> {
                   fontSize: 20,
                 ),
               ),
-              SH20,
-              Row(
-                children: [
-                  const Text("Rate this book: "),
-                  SW5,
-                  RatingBar(
-                    itemCount: 5,
-                    allowHalfRating: true,
-                    itemSize: screenWidthPercentage(context, percentage: 0.06),
-                    ratingWidget: ratingWidget(),
-                    onRatingUpdate: (value) {
-                      setState(() {
-                        widget.myBook.rating = value;
-                      });
-                    },
-                  )
-                ],
-              ),
               SH10,
-              Row(
-                children: [
-                  const Text("Your current page: "),
-                  SizedBox(
-                    width: 50,
-                    height: 20,
-                    child: TextFormField(
-                      maxLength: 5,
-                      decoration: const InputDecoration(counterText: ""),
-                      onChanged: (value) {
-                        setState(() {
-                          widget.myBook.currentPage = int.parse(value);
-                          if (widget.myBook.currentPage > widget.myBook.page!) {
-                            widget.myBook.currentPage = widget.myBook.page!;
-                          }
-                        });
-                      },
-                    ),
-                  ),
-                  Text("/ ${widget.myBook.page}")
-                ],
-              ),
+              rateBook(context),
+              SH10,
+              myCurrentPage(),
             ],
           ),
         ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop();
-              var auth = Provider.of<Authentication>(context, listen: false);
-              MyBookDatabase().updateRatingAndCurrentPage(
-                  auth.currUser!.uid!, widget.myBook);
-            },
-            child: const Text("Close"),
-          ),
-          TextButton(
-            onPressed: () {
-              var auth = Provider.of<Authentication>(context, listen: false);
-              MyBookDatabase()
-                  .removeMyBook(auth.currUser!.uid!, widget.myBook.bid);
-              setState(() {
-                isRemoved=true;
-              });
-              Navigator.of(context).pop();
-            },
-            child: const Text("Return this book"),
-          ),
-        ],
+        actions: actions(context),
       ),
+    );
+  }
+
+  List<Widget> actions(BuildContext context) {
+    return <Widget>[
+      TextButton(
+        onPressed: () async {
+          Navigator.of(context).pop();
+          var auth = Provider.of<Authentication>(context, listen: false);
+          MyBookDatabase()
+              .updateRatingAndCurrentPage(auth.currUser!.uid!, widget.myBook);
+        },
+        child: const Text("Close"),
+      ),
+      TextButton(
+        onPressed: () {
+          var auth = Provider.of<Authentication>(context, listen: false);
+          MyBookDatabase().removeMyBook(auth.currUser!.uid!, widget.myBook.bid);
+          setState(() {
+            isRemoved = true;
+          });
+          Navigator.of(context).pop();
+        },
+        child: const Text("Return this book"),
+      ),
+    ];
+  }
+
+  Row rateBook(BuildContext context) {
+    return Row(
+      children: [
+        const Text("Rate this book: "),
+        SW5,
+        RatingBar(
+          itemCount: 5,
+          allowHalfRating: true,
+          itemSize: screenWidthPercentage(context, percentage: 0.06),
+          ratingWidget: ratingWidget(),
+          onRatingUpdate: (value) {
+            setState(() {
+              widget.myBook.rating = value;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Row myCurrentPage() {
+    return Row(
+      children: [
+        const Text("Your current page: "),
+        SizedBox(
+          width: 50,
+          height: 20,
+          child: TextFormField(
+            initialValue: widget.myBook.currentPage.toString(),
+            maxLength: 5,
+            decoration: const InputDecoration(counterText: ""),
+            onChanged: (value) {
+              setState(() {
+                widget.myBook.currentPage = value.parseInt();
+                if (widget.myBook.currentPage > widget.myBook.page!) {
+                  widget.myBook.currentPage = widget.myBook.page!;
+                }
+              });
+            },
+          ),
+        ),
+        Text("/ ${widget.myBook.page}")
+      ],
     );
   }
 
@@ -133,9 +147,11 @@ class _MyBookCardState extends State<MyBookCard> {
               child: Row(
                 children: [
                   SW12,
-                  Image.network(
-                    widget.myBook.image!,
+                  FadeInImage(
+                    placeholder: const AssetImage("assets/images/icon.png"),
+                    image: NetworkImage(widget.myBook.image!),
                     height: 120,
+                    width: 80,
                     fit: BoxFit.fitHeight,
                   ),
                   SW12,

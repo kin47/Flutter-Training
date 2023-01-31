@@ -17,6 +17,7 @@ List of function:
 + post book to api
 + create books (C)
 + get books information (R)
++ Refresh library after added books (scroll to refresh)
 
 - My Book:
 + add books to user (C)

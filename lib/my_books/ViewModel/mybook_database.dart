@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_training/books/model/book.dart';
+import 'package:flutter_training/helpers/num_parse_extension.dart';
 import 'package:flutter_training/my_books/model/mybook.dart';
 
 class MyBookDatabase {
@@ -52,7 +53,7 @@ class MyBookDatabase {
           page: querySnapshot.docs[i]['page'],
           dueDate: querySnapshot.docs[i]['dueDate'],
           currentPage: querySnapshot.docs[i]['currentPage'],
-          rating: double.parse(querySnapshot.docs[i]['rating'].toString()),
+          rating: querySnapshot.docs[i]['rating'].toString().parseDouble(),
         );
         borrowedBooks.add(myBook);
       }

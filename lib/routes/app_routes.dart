@@ -1,4 +1,4 @@
-class RouteName {
+abstract class RouteName {
   //root - check at the beginning whether is logged in or not?
   static const root = '/';
 

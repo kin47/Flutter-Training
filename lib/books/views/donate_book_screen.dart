@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/books/ViewModel/book_api.dart';
 import 'package:flutter_training/helpers/custom_scaffold.dart';
+import 'package:flutter_training/helpers/num_parse_extension.dart';
 import 'package:flutter_training/helpers/ui_spacing.dart';
 import 'package:flutter_training/helpers/input_decoration.dart';
 import 'package:flutter_training/helpers/show_dialog.dart';
@@ -95,13 +96,14 @@ class DonateBookScreen extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               if (await BookApi().addBook(
-                  _nameController.text,
-                  _authorController.text,
-                  _imageURLController.text,
-                  _genreController.text,
-                  _descriptionController.text,
-                  int.parse(_pageController.text),
-                  int.parse(_publishYearController.text))) {
+                _nameController.text,
+                _authorController.text,
+                _imageURLController.text,
+                _genreController.text,
+                _descriptionController.text,
+                _pageController.text.parseInt(),
+                _publishYearController.text.parseInt(),
+              )) {
                 customShowDialog(context, () {
                   Navigator.of(context).pop();
                 }, "Thank you for donating your book", "Close");

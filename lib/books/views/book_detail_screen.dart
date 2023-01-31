@@ -21,7 +21,6 @@ class BookDetailScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       behavior: SnackBarBehavior.floating,
       shape: const StadiumBorder(),
-      duration: const Duration(seconds: 3),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
