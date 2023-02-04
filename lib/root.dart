@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/user/ViewModel/authentication.dart';
-import 'package:flutter_training/user/model/our_user.dart';
-import 'package:flutter_training/user/views/login_screen.dart';
-import 'package:flutter_training/home/views/home_screen.dart';
+import 'package:flutter_training/main.dart';
+import 'package:flutter_training/modules/user/ViewModel/authentication.dart';
+import 'package:flutter_training/modules/user/model/our_user.dart';
+import 'package:flutter_training/modules/user/views/login_screen.dart';
+import 'package:flutter_training/modules/home/views/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class RootScreen extends StatefulWidget {
@@ -17,12 +18,16 @@ class _RootScreenState extends State<RootScreen> {
   OurUser? user;
   @override
   void didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     Authentication auth=Provider.of<Authentication>(context, listen: false);
     if(await auth.onStartUp()) {
       setState(() {
         user=auth.currUser;
+        if(user!.language=='en') {
+          MyApp.setLocale(context, const Locale('en', 'US'));
+        } else {
+          MyApp.setLocale(context, const Locale('vi', 'VN'));
+        }
         loggedIn=true;
       });
     }
