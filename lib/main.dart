@@ -30,10 +30,12 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: const Color(0xFF361A79),
           secondaryHeaderColor: const Color(0xFFF52DAA),
-          backgroundColor: const Color(0xFFF3F4F6),
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            background: const Color(0xFFF3F4F6),
+          ),
           pageTransitionsTheme: PageTransitionsTheme(
             builders: {
-              TargetPlatform.android :  CustomPageTransitionBuilder(),
+              TargetPlatform.android: CustomPageTransitionBuilder(),
               TargetPlatform.iOS: CustomPageTransitionBuilder(),
               TargetPlatform.windows: CustomPageTransitionBuilder(),
             },
