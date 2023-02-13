@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_training/books/model/book.dart';
+import 'package:flutter_training/helpers/custom_scaffold.dart';
+import 'package:flutter_training/helpers/default_elevated_button.dart';
 import 'package:flutter_training/helpers/ui_spacing.dart';
 import 'package:flutter_training/my_books/ViewModel/mybook_database.dart';
 import 'package:flutter_training/user/ViewModel/authentication.dart';
@@ -19,17 +21,15 @@ class BookDetailScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       behavior: SnackBarBehavior.floating,
       shape: const StadiumBorder(),
-      duration: const Duration(seconds: 3),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(book.name!),
-      ),
+    return defaultScaffold(
+      context,
+      appBar: defaultAppBar(context, book.name!),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -79,17 +79,18 @@ class BookDetailScreen extends StatelessWidget {
               ),
             ),
             SH20,
-            ElevatedButton(
-              onPressed: () async {
-                var auth= Provider.of<Authentication>(context, listen: false);
-                if(await MyBookDatabase().borrowedBooks(auth.currentUser!.uid!, book)){
+            defaultElevatedButton(
+              () async {
+                var auth = Provider.of<Authentication>(context, listen: false);
+                if (await MyBookDatabase()
+                    .borrowedBooks(auth.currUser!.uid!, book)) {
                   _showSuccessDialog(context, "Borrowed books successfully");
-                }
-                else {
+                } else {
                   print("Loi khong muon duoc sach (book_detail_screen)");
                 }
               },
-              child: const Text("Borrow this book"),
+              "Borrow this book",
+              screenWidthPercentage(context, percentage: 0.5),
             ),
           ],
         ),

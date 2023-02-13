@@ -47,4 +47,15 @@ class UserDatabase {
     }
     return isSuccess;
   }
+
+  Future<bool> deleteAccount(String uid) async {
+    bool isSuccess=false;
+    try{
+      await _firebaseFirestore.collection("user").doc(uid).delete();
+      isSuccess=true;
+    } catch(e) {
+      print("Cannot delete account from Firebase Firestore: $e");
+    }
+    return isSuccess;
+  }
 }

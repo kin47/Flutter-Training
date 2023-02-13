@@ -22,7 +22,7 @@ class _RootScreenState extends State<RootScreen> {
     Authentication auth=Provider.of<Authentication>(context, listen: false);
     if(await auth.onStartUp()) {
       setState(() {
-        user=auth.currentUser;
+        user=auth.currUser;
         loggedIn=true;
       });
     }
@@ -38,3 +38,6 @@ class _RootScreenState extends State<RootScreen> {
     return returnScreen;
   }
 }
+
+//hello
+//hello

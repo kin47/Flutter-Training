@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_training/helpers/custom_scaffold.dart';
+import 'package:flutter_training/helpers/default_elevated_button.dart';
 import 'package:flutter_training/helpers/ui_spacing.dart';
+import 'package:flutter_training/routes/app_routes.dart';
 import 'package:flutter_training/user/ViewModel/authentication.dart';
 import 'package:flutter_training/user/ViewModel/user_database.dart';
-import 'package:flutter_training/user/widgets/input_decoration.dart';
-import 'package:flutter_training/user/widgets/show_dialog.dart';
+import 'package:flutter_training/helpers/input_decoration.dart';
+import 'package:flutter_training/helpers/show_dialog.dart';
+import 'package:flutter_training/helpers/show_snackbar.dart';
 import 'package:provider/provider.dart';
 
 class ChangeInformationScreen extends StatefulWidget {
@@ -29,12 +33,39 @@ class _ChangeInformationScreenState extends State<ChangeInformationScreen> {
     });
   }
 
+  onClose() {
+    Navigator.of(context).pop();
+  }
+
+  onChangePassword() async {
+    if (_newPasswordController.text.isNotEmpty &&
+        _newPasswordController.text == _confirmNewPasswordController.text) {
+      Authentication auth = Provider.of<Authentication>(context, listen: false);
+      if (await auth.changePassword(_newPasswordController.text)) {
+        if (!context.mounted) return;
+        customShowDialog(
+            context, onClose, "Change Password Successfully", "Close");
+      }
+    }
+  }
+
+  onDeleteAccount() async {
+    Authentication auth = Provider.of<Authentication>(context, listen: false);
+    Navigator.of(context).pop();
+    if (await auth.deleteAccount() &&
+        await UserDatabase().deleteAccount(auth.currUser!.uid!)) {
+      if (!context.mounted) return;
+      showSnackBar(context, "Delete Account Successfully!");
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(RouteName.root, (route) => false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Change your information"),
-      ),
+    return defaultScaffold(
+      context,
+      appBar: defaultAppBar(context, "Change your information"),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -50,6 +81,22 @@ class _ChangeInformationScreenState extends State<ChangeInformationScreen> {
             const Text("Change name"),
             SH10,
             nameInput(),
+            SH20,
+            defaultElevatedButton(
+              () async {
+                Authentication auth =
+                    Provider.of<Authentication>(context, listen: false);
+                if (await auth.changeAuthName(_nameController.text) &&
+                    await UserDatabase().changeName(
+                        auth.currUser!.uid!, _nameController.text)) {
+                  if (!context.mounted) return;
+                  customShowDialog(
+                      context, onClose, "Change name successfully", "Close");
+                }
+              },
+              "Change name",
+              screenWidthPercentage(context, percentage: 0.5),
+            ),
             SH50,
             const Text("Change password"),
             SH10,
@@ -59,25 +106,16 @@ class _ChangeInformationScreenState extends State<ChangeInformationScreen> {
             SH10,
             confirmNewPasswordInput(),
             SH20,
-            ElevatedButton(
-              onPressed: () async {
-                Authentication auth =
-                    Provider.of<Authentication>(context, listen: false);
-                if (_nameController.text.isNotEmpty &&
-                    _nameController.text != auth.currentUser!.name!) {
-                  if (await UserDatabase().changeName(
-                      auth.currentUser!.uid!, _nameController.text)) {
-                    auth.currentUser!.name = _nameController.text;
-                    customShowDialog(context, () {
-                      Navigator.of(context).pop();
-                    }, "Change Name Successfully", "Close");
-                  }
-                }
-              },
-              child: const Text("Change information"),
+            defaultElevatedButton(
+              onChangePassword,
+              "Change Password",
+              screenWidthPercentage(context, percentage: 0.5),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                twoOptionsDialog(context, onDeleteAccount, onClose,
+                    "Do you want do delete your account?", "Yes", "No");
+              },
               child: const Text(
                 "Delete account",
                 style: TextStyle(color: Colors.red),
@@ -120,7 +158,7 @@ class _ChangeInformationScreenState extends State<ChangeInformationScreen> {
         controller: _newPasswordController,
         decoration: passwordInputDecoration("New password", onObscureEyePress),
         obscureText: obscureTxt,
-        textInputAction: TextInputAction.done,
+        textInputAction: TextInputAction.next,
       ),
     );
   }
