@@ -42,6 +42,7 @@ class _ChangeInformationScreenState extends State<ChangeInformationScreen> {
         _newPasswordController.text == _confirmNewPasswordController.text) {
       Authentication auth = Provider.of<Authentication>(context, listen: false);
       if (await auth.changePassword(_newPasswordController.text)) {
+        if (!context.mounted) return;
         customShowDialog(
             context, onClose, "Change Password Successfully", "Close");
       }
@@ -53,6 +54,7 @@ class _ChangeInformationScreenState extends State<ChangeInformationScreen> {
     Navigator.of(context).pop();
     if (await auth.deleteAccount() &&
         await UserDatabase().deleteAccount(auth.currUser!.uid!)) {
+      if (!context.mounted) return;
       showSnackBar(context, "Delete Account Successfully!");
       Navigator.of(context)
           .pushNamedAndRemoveUntil(RouteName.root, (route) => false);
@@ -87,6 +89,7 @@ class _ChangeInformationScreenState extends State<ChangeInformationScreen> {
                 if (await auth.changeAuthName(_nameController.text) &&
                     await UserDatabase().changeName(
                         auth.currUser!.uid!, _nameController.text)) {
+                  if (!context.mounted) return;
                   customShowDialog(
                       context, onClose, "Change name successfully", "Close");
                 }
