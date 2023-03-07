@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-ElevatedButton defaultElevatedButton(VoidCallback onPress, String text, double buttonWidth) {
+ElevatedButton defaultElevatedButton(
+    {required VoidCallback onPress, required String text, required double buttonWidth}) {
   return ElevatedButton(
     onPressed: onPress,
     style: ElevatedButton.styleFrom(
