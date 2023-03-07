@@ -1,13 +1,13 @@
-import 'package:flutter_training/books/views/donate_book_screen.dart';
-import 'package:flutter_training/books/views/library_screen.dart';
-import 'package:flutter_training/home/views/home_screen.dart';
-import 'package:flutter_training/user/views/change_information_screen.dart';
-import 'package:flutter_training/user/views/login_screen.dart';
-import 'package:flutter_training/my_books/views/my_books_screen.dart';
-import 'package:flutter_training/user/views/signup_screen.dart';
+import 'package:flutter_training/modules/books/views/donate_book_screen.dart';
+import 'package:flutter_training/modules/books/views/library_screen.dart';
+import 'package:flutter_training/modules/home/views/home_screen.dart';
+import 'package:flutter_training/modules/user/views/change_information_screen.dart';
+import 'package:flutter_training/modules/user/views/login_screen.dart';
+import 'package:flutter_training/modules/my_books/views/my_books_screen.dart';
+import 'package:flutter_training/modules/user/views/signup_screen.dart';
 import 'package:flutter_training/root.dart';
 import 'package:flutter_training/routes/app_routes.dart';
-import 'package:flutter_training/user/views/setting_screen.dart';
+import 'package:flutter_training/modules/user/views/setting_screen.dart';
 
 abstract class AppPages {
   static final routes={
