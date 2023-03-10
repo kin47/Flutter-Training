@@ -52,6 +52,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: ProviderList.provider,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           primaryColor: const Color(0xFF361A79),
