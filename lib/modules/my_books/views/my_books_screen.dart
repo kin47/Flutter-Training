@@ -21,7 +21,9 @@ class MyBooksScreen extends StatelessWidget {
               : ListView.builder(
                   itemBuilder: (context, index) {
                     return MyBookCard(
-                        myBook: controller.listBorrowedBooks[index]);
+                      myBook: controller.listBorrowedBooks[index],
+                      index: index,
+                    );
                   },
                   itemCount: controller.listBorrowedBooks.length,
                 );

@@ -11,10 +11,16 @@ class MyBooksController extends ChangeNotifier{
   List<MyBook> get listBorrowedBooks => _listBorrowedBooks;
   bool get isLoading => _isLoading;
 
-  getListBorrowedBookData(BuildContext context) async {
+  void getListBorrowedBookData(BuildContext context) async {
     var user = Provider.of<Authentication>(context, listen: false);
     _listBorrowedBooks = await MyBookDatabase().getAllMyBorrowedBooks(user.currUser!.uid!);
     _isLoading=false;
     notifyListeners();
   }
+
+  // void updateRatingAndCurrentPage(double rating, int currentPage, int index)  {
+  //   _listBorrowedBooks[index].rating=rating;
+  //   _listBorrowedBooks[index].currentPage=currentPage;
+  //   notifyListeners();
+  // }
 }
