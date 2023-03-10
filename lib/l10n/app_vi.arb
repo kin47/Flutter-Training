@@ -16,6 +16,14 @@
     "passwordNotMatch": "Mật khẩu không trùng khớp",
 
     "homeScreen" : "-------------------Home Screen-----------------------",
+    "hi" : "Chào {name}",
+    "@hi" : {
+        "placeholders" : {
+            "name" : {
+                "type" : "String"
+            }
+        }
+    },
     "myBooks" : "Sách của tôi",
     "visitLibrary" : "Thư viện",
 
@@ -49,6 +57,7 @@
     "returnBook" : "Trả sách",
     "rateBook" : "Đánh giá",
     "currentPage" : "Trang hiện tại",
+    "dueDate": "Hạn",
 
     "changeInformationScreen" : "------------Change Information Screen--------------",
     "changeInfo" : "Đổi thông tin",

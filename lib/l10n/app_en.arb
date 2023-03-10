@@ -16,6 +16,14 @@
     "passwordNotMatch": "Password do not match",
 
     "homeScreen" : "-------------------Home Screen-----------------------",
+    "hi" : "Hi {name}",
+    "@hi" : {
+        "placeholders" : {
+            "name" : {
+                "type" : "String"
+            }
+        }
+    },
     "myBooks" : "My Books",
     "visitLibrary" : "Visit the library",
 
@@ -49,6 +57,7 @@
     "returnBook" : "Return this book",
     "rateBook" : "Rate this book",
     "currentPage" : "Your current page",
+    "dueDate": "Due date",
 
     "changeInformationScreen" : "------------Change Information Screen--------------",
     "changeInfo" : "Change information",

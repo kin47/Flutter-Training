@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
           context,
           appBar: appBarWithActions(
             context,
-            "Hi ${auth.currUser!.name}",
+            context.loc.hi(auth.currUser!.name!),
             [
               IconButton(
                 onPressed: () {

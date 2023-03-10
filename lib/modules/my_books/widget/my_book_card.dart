@@ -49,7 +49,7 @@ class _MyBookCardState extends State<MyBookCard> {
               SH10,
               rateBook(context),
               SH10,
-              myCurrentPage(),
+              myCurrentPage(context),
             ],
           ),
         ),
@@ -86,7 +86,7 @@ class _MyBookCardState extends State<MyBookCard> {
   Row rateBook(BuildContext context) {
     return Row(
       children: [
-        const Text("Rate this book: "),
+        Text(context.loc.rateBook),
         SW5,
         RatingBar(
           itemCount: 5,
@@ -103,10 +103,10 @@ class _MyBookCardState extends State<MyBookCard> {
     );
   }
 
-  Row myCurrentPage() {
+  Row myCurrentPage(BuildContext context) {
     return Row(
       children: [
-        const Text("Your current page: "),
+        Text(context.loc.currentPage),
         SizedBox(
           width: 50,
           height: 20,
@@ -168,13 +168,13 @@ class _MyBookCardState extends State<MyBookCard> {
                         ),
                       ),
                       SH5,
-                      Text("Author: ${widget.myBook.author}"),
+                      Text("${context.loc.author}: ${widget.myBook.author}"),
                       SH5,
-                      Text("Genre: ${widget.myBook.genre}"),
+                      Text("${context.loc.genre}: ${widget.myBook.genre}"),
                       SH5,
                       Row(
                         children: [
-                          Text("My rating: ${widget.myBook.rating}"),
+                          Text("${context.loc.myRating}: ${widget.myBook.rating}"),
                           SW2,
                           const Icon(
                             Icons.star,
@@ -189,7 +189,7 @@ class _MyBookCardState extends State<MyBookCard> {
                               widget.myBook.currentPage / widget.myBook.page!),
                       SH10,
                       Text(
-                        "Due date: ${ReturnDate.formatDate(widget.myBook.dueDate!)}",
+                        "${context.loc.dueDate}: ${ReturnDate.formatDate(widget.myBook.dueDate!)}",
                         style: const TextStyle(color: Colors.red),
                       ),
                     ],
