@@ -5,6 +5,10 @@ My mentor: ToanNT, HungPV, KhanhHD
 
 ## Getting Started
 
+Package Used:
+- Call API: dio
+- Database/Authentication: Using Google Firebase
+
 List of function:
 - User:
 + log in/sign up (authentication), create user in FirebaseFirestore Database (C)
@@ -24,5 +28,3 @@ List of function:
 + display list of borrowed books (R)
 + add rating and current page (U)
 + Remove book (D)
-
-- State management: Using provider
