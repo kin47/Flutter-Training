@@ -4,7 +4,6 @@ import 'package:flutter_training/modules/my_books/model/mybook.dart';
 import 'package:flutter_training/modules/user/ViewModel/authentication.dart';
 import 'package:provider/provider.dart';
 
-
 class MyBooksController extends ChangeNotifier{
   List<MyBook> _listBorrowedBooks=[];
   bool _isLoading = true;
