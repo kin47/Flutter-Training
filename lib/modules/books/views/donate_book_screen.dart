@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_training/data/remote/book_remote_data_source_impl.dart';
+import 'package:flutter_training/data/repository/book_repository.dart';
 import 'package:flutter_training/extensions/loc.dart';
 import 'package:flutter_training/helpers/custom_scaffold.dart';
 import 'package:flutter_training/extensions/num_parse_extension.dart';
@@ -7,6 +7,7 @@ import 'package:flutter_training/helpers/ui_spacing.dart';
 import 'package:flutter_training/helpers/input_decoration.dart';
 import 'package:flutter_training/helpers/show_dialog.dart';
 import 'package:flutter_training/modules/books/model/book.dart';
+
 
 class DonateBookScreen extends StatelessWidget {
   DonateBookScreen({Key? key}) : super(key: key);
@@ -18,6 +19,8 @@ class DonateBookScreen extends StatelessWidget {
   final TextEditingController _pageController = TextEditingController();
   final TextEditingController _publishYearController = TextEditingController();
   final TextEditingController _imageURLController = TextEditingController();
+
+  final BookRepository _repository=BookRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +109,7 @@ class DonateBookScreen extends StatelessWidget {
                 page: _pageController.text.parseInt(),
                 publishYear: _publishYearController.text.parseInt(),
               );
-              if (await BookRemoteDataSourceImpl().addBook(newBook)) {
+              if (await _repository.addBook(newBook)) {
                 customShowDialog(context, () {
                   Navigator.of(context).pop();
                 }, context.loc.donateSuccess, context.loc.close);

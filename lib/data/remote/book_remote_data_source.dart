@@ -1,35 +1,30 @@
-import 'package:dio/dio.dart';
-import 'package:flutter_training/data/remote/api.dart';
+import 'package:flutter_training/data/dio/project_base_remote_resource.dart';
 import 'package:flutter_training/modules/books/model/book.dart';
 
-class BookRemoteDataSource {
-  var dio=Dio();
+class BookRemoteDataSource extends ProjectBaseRemoteResource {
   Future<List<Book>> getBookData() async {
-    List<Book> listBook=[];
-    try{
-      var response = await dio.get(API.url);
-      if(response.statusCode==200) {
-        for(var returnData in response.data) {
-          Book book = Book.fromJson(returnData);
-          listBook.add(book);
-        }
-      }
-      else{
-        print("Loi API 1: ${response.statusCode}");
-      }
-    }catch(e) {
-      print("Loi API 2: $e");
+    List<Book> listBook = [];
+    var endpoint='$url/books';
+    var response = await dio.get(endpoint);
+    try {
+        listBook=List<Book>.from(response.data.map((e) => Book.fromJson(e)));
+    } catch (e) {
+      rethrow;
     }
     return listBook;
   }
+
   Future<bool> addBook(Book book) async {
-    bool isSuccess=false;
-    try{
-      var response=await dio.post(API.url, data: book.toJson());
-      print(response.statusCode);
-      isSuccess=true;
-    }catch(e) {
-      print("Can't post to API");
+    bool isSuccess = false;
+    var endpoint='$url/books';
+    try {
+      await dio.post(
+        endpoint,
+        data: book.toJson(),
+      );
+      isSuccess = true;
+    } catch (e) {
+      rethrow;
     }
     return isSuccess;
   }
